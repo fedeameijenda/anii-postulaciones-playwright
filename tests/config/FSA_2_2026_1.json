@@ -1,0 +1,12 @@
+{
+  "url": "https://postulaciones-ti.anii.org.uy/index.php?convocatoria=FSA_2_2026_1",
+    "nombreSeccionMenu": "Especificaciones",
+  "contenidoTecnicoGlobal": {
+    "wysiwygs": [
+      { "id": "#comentario_1", "valor": "Contenido técnico A" },
+      { "id": "#comentario_2", "valor": "Contenido técnico B" },
+      { "id": "#comentario_3", "valor": "Contenido técnico C" }
+    ],
+    "botonGuardar": "[onclick='return validarDatoEvalGlobal();']"
+  }
+}
