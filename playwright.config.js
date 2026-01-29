@@ -51,7 +51,7 @@ export default defineConfig({
   },
   screenshot: 'only-on-failure',
   trace: 'on-first-retry',
-  headless: false,
+  headless: process.env.CI ? true : false,
   storageState: 'auth/auth.json'
 },
 

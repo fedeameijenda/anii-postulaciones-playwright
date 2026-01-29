@@ -14,8 +14,14 @@ test('Completar contenido técnico global', async ({ page }) => {
   // Abrir convocatoria
   await page.goto(config.convocatoria.url);
 
-  await page.locator('button:has(a:text("Crear nueva propuesta"))').waitFor({ state: 'visible' });
-  await page.locator('button:has(a:text("Crear nueva propuesta"))').click();
+  
+  const crearBtn = page.getByRole('link', {
+  name: /crear nueva propuesta/i,
+  });
+  await crearBtn.click();
+
+
+
 
   const convocatoria = new ConvocatoriaPage(page);
   const contenidoTecnico = new ContenidoTecnicoGlobalSection(page);
