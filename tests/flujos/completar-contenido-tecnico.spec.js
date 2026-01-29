@@ -14,8 +14,8 @@ test('Completar contenido técnico global', async ({ page }) => {
   // Abrir convocatoria
   await page.goto(config.convocatoria.url);
 
-  // Pausa para login manual
-  await page.pause();
+  await page.locator('button:has(a:text("Crear nueva propuesta"))').waitFor({ state: 'visible' });
+  await page.locator('button:has(a:text("Crear nueva propuesta"))').click();
 
   const convocatoria = new ConvocatoriaPage(page);
   const contenidoTecnico = new ContenidoTecnicoGlobalSection(page);
