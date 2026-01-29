@@ -1,6 +1,10 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
 
+import path from 'path';
+
+import * as dotenv from 'dotenv';
+dotenv.config();
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -9,8 +13,12 @@ import { defineConfig, devices } from '@playwright/test';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+
+
 const BASIC_AUTH_USER = process.env.BASIC_AUTH_USER;
 const BASIC_AUTH_PASS = process.env.BASIC_AUTH_PASS;
+
+
 
 if (process.env.CI && (!BASIC_AUTH_USER || !BASIC_AUTH_PASS)) {
   throw new Error(
@@ -43,6 +51,7 @@ export default defineConfig({
   },
   screenshot: 'only-on-failure',
   trace: 'on-first-retry',
+  headless: false,
   storageState: 'auth/auth.json'
 },
 
