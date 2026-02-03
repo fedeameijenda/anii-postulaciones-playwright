@@ -46,13 +46,13 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   outputDir: 'test-results/screenshots',
-  
+
   use: {
   httpCredentials: {
     username: /** @type {string} */ (BASIC_AUTH_USER),
     password: /** @type {string} */ (BASIC_AUTH_PASS),
   },
-  screenshot: 'only-on-failure',
+  screenshot: 'on',
   trace: 'on-first-retry',
   headless: process.env.CI ? true : false,
   storageState: 'auth/auth.json',
