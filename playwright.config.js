@@ -44,6 +44,9 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
+  outputDir: 'test-results/screenshots',
+  
   use: {
   httpCredentials: {
     username: /** @type {string} */ (BASIC_AUTH_USER),
@@ -53,7 +56,7 @@ export default defineConfig({
   trace: 'on-first-retry',
   headless: process.env.CI ? true : false,
   storageState: 'auth/auth.json',
-  outputDir: 'test-results/screenshots'
+  
 
 },
 
