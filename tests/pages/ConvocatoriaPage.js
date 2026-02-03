@@ -8,7 +8,12 @@ export class ConvocatoriaPage {
   }
 
   async irASeccion(nombreSeccion) {
-    const link = this.page.locator(`text=${nombreSeccion}`);
-    await link.click();
-  }
+  const boton = this.page.getByRole('button', {
+    name: new RegExp(nombreSeccion, 'i'),
+  });
+
+  await boton.waitFor({ state: 'visible', timeout: 20000 });
+  await boton.scrollIntoViewIfNeeded();
+  await boton.click();
+}
 }

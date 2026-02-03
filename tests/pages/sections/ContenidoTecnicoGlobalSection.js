@@ -17,12 +17,23 @@ export class ContenidoTecnicoGlobalSection {
       .locator('xpath=following-sibling::div//div[contains(@class,"note-editable")]');
   }
 
-  // Completa un solo campo
   async completarCampo(nombreCampo, texto) {
-    const editor = this.getEditorPorNombre(nombreCampo);
-    await editor.click();
-    await editor.fill(texto);
-  }
+  const editor = this.getEditorPorNombre(nombreCampo);
+
+  // Esperar que esté visible
+  await editor.waitFor({ state: 'visible', timeout: 15000 });
+
+  // Hacer scroll para asegurar que Playwright pueda clickear
+  await editor.scrollIntoViewIfNeeded();
+
+  // Click seguro usando evaluate
+  await editor.evaluate(el => el.focus());
+
+  // Llenar el contenido
+  await editor.fill(texto);
+}
+
+
 
   // Completa todos los campos
   async completarCampos(campos) {
@@ -38,14 +49,70 @@ export class ContenidoTecnicoGlobalSection {
 
   // Devuelve true si se ve mensaje de guardado
   async estaGuardadoCorrectamente(timeout = 10000) {
-    try {
-      const mensaje = this.page.locator(this.mensajeOkSelector, {
-        hasText: this.mensajeOkTexto,
-      });
-      await mensaje.waitFor({ state: 'visible', timeout }); // espera que aparezca
-      return true;
-    } catch {
-      return false;
-    }
-  }
+  const mensajes = this.page.locator(
+    'div.sl-notification.show',
+    { hasText: this.mensajeOkTexto }
+  );
+
+  // Devuelve false si no aparece el mensaje en X tiempo
+try {
+  await mensajes.first().waitFor({ state: 'attached', timeout });
+  return true;
+} catch {
+  return false;
+}
+  
+}
+
+  async campoTieneError(nombreCampo) {
+  const editor = this.getEditorPorNombre(nombreCampo);
+
+  // el div padre tiene el borde rojo
+  const contenedor = editor.locator('xpath=ancestor::div[contains(@style,"border")]');
+
+  return await contenedor.evaluate(el =>
+    getComputedStyle(el).borderColor === 'rgb(255, 0, 0)'
+  );
+}
+async obtenerValorCampo(nombreCampo) {
+  const campo = this.page.locator(
+    `#${nombreCampo}`
+  ).locator(
+    'xpath=following-sibling::div//div[contains(@class,"note-editable")]'
+  );
+
+  await campo.waitFor({ state: 'visible' });
+
+  return await campo.innerText();
+}
+// Devuelve el contenedor visual del campo
+getContenedorCampo(nombreCampo) {
+  const editor = this.getEditorPorNombre(nombreCampo);
+
+  return editor.locator(
+    'xpath=ancestor::div[contains(@style,"border")]'
+  );
+}
+
+// 📸 Screenshot del campo específico (con error)
+async screenshotCampo(nombreCampo, nombreArchivo, testInfo) {
+  const contenedor = this.getContenedorCampo(nombreCampo);
+
+  // aseguramos que esté visible en pantalla
+  await contenedor.scrollIntoViewIfNeeded();
+
+  await testInfo.attach(nombreArchivo, {
+    body: await contenedor.screenshot(),
+    contentType: 'image/png',
+  });
+}
+
+  async seMuestraMensajeError(textoEsperado) {
+  const mensajes = this.page.locator(
+    'div.sl-notification.show',
+    { hasText: textoEsperado }
+  );
+
+  return (await mensajes.count()) > 0;
+}
 }

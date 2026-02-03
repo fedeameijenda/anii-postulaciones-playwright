@@ -2,7 +2,6 @@
   "convocatoria": {
     "id": "FSA_1_2026_1",
     "url": "https://postulaciones-ti.anii.org.uy/index.php?convocatoria=FSA_1_2026_1"
-    
   },
 
   "menuSecciones": {
@@ -10,27 +9,5 @@
     "presupuesto": "Presupuesto",
     "equipoTrabajo": "Equipo de Trabajo",
     "cronograma": "Cronograma"
-  },
-
-  "contenidoTecnicoGlobal": {
-    "campos": [
-      {
-        "nombre": "comentario_1",
-        "textoValido": "Texto válido campo 1",
-        "textoExcedeMaximo": "AAAAA...."
-      },
-      {
-        "nombre": "comentario_2",
-        "textoValido": "Texto válido campo 2",
-        "textoExcedeMaximo": "BBBBB...."
-      },
-      {
-        "nombre": "comentario_3",
-        "textoValido": "Texto válido campo 3",
-        "textoExcedeMaximo": "CCCCC...."
-      }
-    ]
   }
-
 }
-

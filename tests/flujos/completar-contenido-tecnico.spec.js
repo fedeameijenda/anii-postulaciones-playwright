@@ -9,7 +9,11 @@ import { ContenidoTecnicoGlobalSection } from '../pages/sections/ContenidoTecnic
 const configPath = path.resolve('tests/config/FSA_1_2026_1.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
-test('Completar contenido técnico global', async ({ page }) => {
+// Leer DATA
+const dataPath = path.resolve('tests/data/contenidoTecnicoGlobal.data.json');
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+
+test('Completar contenido técnico global', async ({ page }, testInfo) => {
 
   // Abrir convocatoria
   await page.goto(config.convocatoria.url);
@@ -32,10 +36,12 @@ test('Completar contenido técnico global', async ({ page }) => {
   );
 
   // Completar campos uno por uno
-  for (let i = 0; i < config.contenidoTecnicoGlobal.campos.length; i++) {
-    const campo = config.contenidoTecnicoGlobal.campos[i];
-    await contenidoTecnico.completarCampo(campo.nombre, campo.textoValido);
-  }
+  for (const campo of data.campos) {
+  await contenidoTecnico.completarCampo(
+    campo.nombre,
+    campo.textoValido
+  );
+}
 
   // Guardar
   await contenidoTecnico.guardar();
@@ -43,4 +49,29 @@ test('Completar contenido técnico global', async ({ page }) => {
   // Validar que se guardó correctamente
   const guardado = await contenidoTecnico.estaGuardadoCorrectamente();
   expect(guardado).toBeTruthy();
+
+  await testInfo.attach('guardado-ok', {
+  body: await page.screenshot(),
+  contentType: 'image/png',
+});
+
+  await convocatoria.irASeccion(
+  config.menuSecciones.presupuesto
+);
+
+await convocatoria.irASeccion(
+  config.menuSecciones.contenidoTecnico
+);
+
+for (const campo of data.campos) {
+  const valorGuardado =
+    await contenidoTecnico.obtenerValorCampo(campo.nombre);
+
+  expect(valorGuardado).toContain(campo.textoValido);
+}
+
+await testInfo.attach('datos-persistidos', {
+  body: await page.screenshot(),
+  contentType: 'image/png',
+});
 });
