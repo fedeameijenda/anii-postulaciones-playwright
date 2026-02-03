@@ -52,7 +52,9 @@ export default defineConfig({
   screenshot: 'only-on-failure',
   trace: 'on-first-retry',
   headless: process.env.CI ? true : false,
-  storageState: 'auth/auth.json'
+  storageState: 'auth/auth.json',
+  outputDir: 'test-results/screenshots'
+
 },
 
   /* Configure projects for major browsers */
