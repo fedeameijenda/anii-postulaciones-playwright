@@ -31,7 +31,7 @@ jobs:
           BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
         run: npx playwright test
 
-      # 👇 Subir screenshots como artefacto
+      # Subir screenshots como artefacto
       - name: Upload Playwright Screenshots
         if: always()   # así se suben aunque los tests pasen o fallen
         uses: actions/upload-artifact@v4
