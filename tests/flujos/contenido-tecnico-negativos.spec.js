@@ -42,7 +42,11 @@ test.describe('Contenido Técnico - límite de palabras', () => {
       // Validaciones
       expect(await contenidoTecnico.estaGuardadoCorrectamente(3000)).toBeFalsy();
       expect(await contenidoTecnico.campoTieneError(campo.nombre)).toBeTruthy();
-      expect(await contenidoTecnico.seMuestraMensajeError(data.mensajes.errorLimitePalabras)).toBeTruthy();
+      expect(
+  await contenidoTecnico.seMuestraMensajeError(
+    data.mensajes.errorLimitePalabras
+  )
+).toBeTruthy();
 
       // Screenshot
       await contenidoTecnico.screenshotCampo(

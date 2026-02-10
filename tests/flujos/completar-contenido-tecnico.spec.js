@@ -52,6 +52,8 @@ test('Completar contenido técnico global', async ({ page }, testInfo) => {
 
   await testInfo.attach('guardado-ok', {
   body: await page.screenshot(),
+
+
   contentType: 'image/png',
 });
 
@@ -68,7 +70,9 @@ for (const campo of data.campos) {
     await contenidoTecnico.obtenerValorCampo(campo.nombre);
 
   expect(valorGuardado).toContain(campo.textoValido);
-  expect(await contenidoTecnico.seMuestraMensajeError(data.mensajes.mensajeCorrecto)).toBeTruthy();
+  expect(
+  await contenidoTecnico.seMuestraMensajeCorrecto()
+).toBeTruthy();
 }
 
 await testInfo.attach('datos-persistidos', {

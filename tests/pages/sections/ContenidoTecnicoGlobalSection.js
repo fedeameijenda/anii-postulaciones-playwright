@@ -107,12 +107,33 @@ async screenshotCampo(nombreCampo, nombreArchivo, testInfo) {
   });
 }
 
-  async seMuestraMensajeError(textoEsperado) {
-  const mensajes = this.page.locator(
+  async seMuestraNotificacion(textoEsperado, timeout = 3000) {
+  const mensaje = this.page.locator(
     'div.sl-notification.show',
     { hasText: textoEsperado }
   );
 
-  return (await mensajes.count()) > 0;
+  try {
+    await mensaje.first().waitFor({ state: 'attached', timeout });
+    return true;
+  } catch {
+    return false;
+  }
 }
+
+async seMuestraMensajeCorrecto(timeout = 3000) {
+  return await this.seMuestraNotificacion(
+    this.mensajeOkTexto,
+    timeout
+  );
+}
+
+async seMuestraMensajeError(textoError, timeout = 3000) {
+  return await this.seMuestraNotificacion(
+    textoError,
+    timeout
+  );
+}
+
+
 }
