@@ -135,5 +135,18 @@ async seMuestraMensajeError(textoError, timeout = 3000) {
   );
 }
 
+async screenshotMensajeCorrecto(testInfo) {
+  const mensaje = this.page.locator(
+    'div.sl-notification.show',
+    { hasText: this.mensajeOkTexto }
+  );
+
+  await mensaje.first().waitFor({ state: 'visible', timeout: 3000 });
+
+  await testInfo.attach('mensaje-correcto', {
+    body: await mensaje.first().screenshot(),
+    contentType: 'image/png',
+  });
+}
 
 }

@@ -42,10 +42,13 @@ test('Completar contenido técnico global', async ({ page }, testInfo) => {
   // Guardar
   await contenidoTecnico.guardar();
 
-  // ✅ Validar mensaje de éxito UNA SOLA VEZ (acá sí existe)
+  // Validar mensaje de éxito UNA SOLA VEZ 
   expect(
     await contenidoTecnico.seMuestraMensajeCorrecto()
   ).toBeTruthy();
+
+  // 📸 CAPTURA DEL MENSAJE DE ÉXITO (JUSTO ACÁ)
+  await contenidoTecnico.screenshotMensajeCorrecto(testInfo);
 
   // Validar que se guardó correctamente
   const guardado = await contenidoTecnico.estaGuardadoCorrectamente();
@@ -66,7 +69,7 @@ test('Completar contenido técnico global', async ({ page }, testInfo) => {
     config.menuSecciones.contenidoTecnico
   );
 
-  // ✅ Validar persistencia de datos (esto es lo importante)
+  //  Validar persistencia de datos 
   for (const campo of data.campos) {
     const valorGuardado =
       await contenidoTecnico.obtenerValorCampo(campo.nombre);
