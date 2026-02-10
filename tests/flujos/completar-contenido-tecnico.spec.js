@@ -68,6 +68,7 @@ for (const campo of data.campos) {
     await contenidoTecnico.obtenerValorCampo(campo.nombre);
 
   expect(valorGuardado).toContain(campo.textoValido);
+  expect(await contenidoTecnico.seMuestraMensajeError(data.mensajes.mensajeCorrecto)).toBeTruthy();
 }
 
 await testInfo.attach('datos-persistidos', {
